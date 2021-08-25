@@ -27,12 +27,32 @@ router.post('/', async (req, res) => {
         quantity: req.body.quantity
     })
 
-    console.log(snack)
-
     try {
         const newSnack = await snack.save()
         res.status(201).json(newSnack)
     } catch (err) {
+        res.status(400).json({ message: err.message })
+    }
+})
+
+// Updating one snack
+router.patch('/:id', getSnack, async (req, res) => {
+    if (req.body.name != null) {
+        res.snack.name = req.body.name
+    }
+    if (req.body.weight != null) {
+        res.snack.weight = req.body.weight
+    }
+    if (req.body.price != null) {
+        res.snack.price = req.body.price
+    }
+    if (req.body.quantity != null) {
+        res.snack.quantity = req.body.quantity
+    }
+    try {
+        const updatedSnack = await res.snack.save()
+        res.json(updatedSnack)
+    } catch {
         res.status(400).json({ message: err.message })
     }
 })
